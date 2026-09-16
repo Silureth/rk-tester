@@ -245,6 +245,7 @@ echo "-- PackageKit journal indicators --"
 PK_JOURNAL="$(
     journalctl --no-pager 2>/dev/null \
         | grep -Ei 'pkbuild|pk-dummy|pk-payload' \
+        | grep -vE 'audit: EXECVE.*(pkbuild|pk-dummy|pk-payload)' \
         | tail -100 || true
 )"
 
@@ -388,6 +389,7 @@ RECENT_IOC="$(
     journalctl --since "-30 days" --no-pager 2>/dev/null \
         | grep -Ei \
           'postgresq1|systemct1|open-tls|pk-payload|pk-dummy|pkbuild|\.cpan/.cache/update' \
+        | grep -vE 'audit: EXECVE.*(postgresq1|systemct1|open-tls|pk-payload|pk-dummy|pkbuild|\.cpan/.cache/update)' \
         | tail -200 || true
 )"
 
